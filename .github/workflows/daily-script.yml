@@ -3,7 +3,7 @@ name: Run Script Daily
 on:
   schedule:
     # Запускать каждый день в полночь UTC
-    - cron: '*/30 * * * *'
+    - cron: '*/40 * * * *'
 
 jobs:
   run-script:
@@ -28,7 +28,5 @@ jobs:
     - name: Run script
       env:
         GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
-
-    - name: Run script
       run: |
         python prod_quote_check.py 
