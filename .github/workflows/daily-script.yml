@@ -18,12 +18,13 @@ jobs:
       with:
         python-version: '3.x' 
 
-    - name: Install
+    - name: Install requests
       run: |
-        pip install requests
-        pip install pandas
-        pip install datetime
-        
+        pip install json
+        pip install random
+        pip install signal
+        pip install sys
+        pip install gspread
 
     - name: Run script
       run: |
