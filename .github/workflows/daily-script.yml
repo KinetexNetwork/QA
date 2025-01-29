@@ -3,7 +3,7 @@ name: Run Script Daily
 on:
   schedule:
     # Запускать каждый день в полночь UTC
-    - cron: '*/10 * * * *'
+    - cron: '*/30 * * * *'
 
 jobs:
   run-script:
