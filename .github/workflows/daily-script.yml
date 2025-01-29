@@ -3,7 +3,7 @@ name: Run Script Daily
 on:
   schedule:
     # Запускать каждый день в полночь UTC
-    - cron: '*/15 * * * *'
+    - cron: '*/10 * * * *'
 
 jobs:
   run-script:
@@ -18,9 +18,16 @@ jobs:
       with:
         python-version: '3.x' 
 
-    - name: List files
+    - name: Install requests
       run: |
-        ls -R
+        pip install requests
+        pip install pandas
+        pip install datetime
+        pip install json
+        pip install random
+        pip install signal
+        pip install sys
+        pip install gspread
 
     - name: Run script
       run: |
