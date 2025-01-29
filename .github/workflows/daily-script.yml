@@ -3,7 +3,7 @@ name: Run Script Daily
 on:
   schedule:
     # Запускать каждый день в полночь UTC
-    - cron: '*/40 * * * *'
+    - cron: '*/55 * * * *'
 
 jobs:
   run-script:
@@ -20,11 +20,10 @@ jobs:
 
     - name: Install requests
       run: |
-        pip install json
-        pip install random
-        pip install signal
-        pip install sys
+        pip install requests
+        pip install pandas
         pip install gspread
+        pip install oauth2client
 
     - name: Run script
       run: |
