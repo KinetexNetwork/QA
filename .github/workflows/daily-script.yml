@@ -3,7 +3,7 @@ name: Run Script Daily
 on:
   schedule:
     # Запускать каждый день в полночь UTC
-    - cron: '*/30 * * * *'
+    - cron: '*/15 * * * *'
 
 jobs:
   run-script:
@@ -16,8 +16,8 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'  # Укажите версию Python, например, 3.8
+        python-version: '3.x' 
 
     - name: Run script
       run: |
-        python prod_quote_check.py  # Замените на команду для запуска вашего скрипта
+        python prod_quote_check.py 
