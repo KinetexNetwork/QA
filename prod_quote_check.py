@@ -13,7 +13,7 @@ from datetime import datetime
 environment = "prod"  # staging/prod/dev
 last_amount = 100  # Сумма обмена в USD
 enable_exceptions = False  # Включить/выключить исключения
-enable_filters = False  # Включить/выключить фильтры
+enable_filters = True  # Включить/выключить фильтры
 enable_exceptions1 = True  # сверяем с дополнительной апишкой
 
 stop_threads = False
@@ -97,16 +97,10 @@ if response_cryptos.status_code == 200:
                 from_chain_id
                 not in [
                     "10",
-                    "100",
-                    "137",
-                    "60808",
                 ]
                 or to_chain_id
                 not in [
                     "10",
-                    "100",
-                    "137",
-                    "60808",
                 ]
             ):
                 return None
@@ -569,20 +563,7 @@ def save_to_google_sheets(report_data):
         "https://www.googleapis.com/auth/drive",
     ]
     
-    creds_dict = {
-        "type": "service_account",
-        "project_id": "macro-crane-449312-v5",
-        "private_key_id": "d653592b1e358fee51c03280de5ff05d076eece8",
-        "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCP7yM6tM3ES/eh\nQfuBO043zmePQU131lRu3qmPZu2zOTRZXlBaEbXO/3nbmHDqAN/rAIj7rHpjUJ3g\nfomVo5NyTDpIWIMQQbEWDVRDrjG7xBFffFiCOhKV8hOARIfCu1ANEdbjLGJJfZYc\nTAjpHO/AsGoy8wYTBvwguzUr2MKlNr6/aChOy+DXm59pYBGfC7iBmeys8tNKtyWp\nBVF3igc8bw9RnBdQUSX7Vv2QnLnVkgdjLaDrsdNTXv9M5RdRDas0eWaembQunaTt\nDZxZsSHYgIc0vAJZg4t0AnunKTKji5LGHXbAihK7ktW9TwyTmToXMdeROLKIfhFa\no4zLzGchAgMBAAECggEAD4I3XAx+PV/oGzaGWHrg5y90xiFFrRtpdpbEU2DGTPDl\nfJmmc8YDvn2Vjj1DMVuNxP8GQ4PmngviLv3Dal25NfATuZbb7GT/pT4jbbV3w2ER\ndCXsTX/fX8u5ITGBJVDUg8v/yPOP1ZZUFdF1hlSpWqxHjRzVczhl80ropERTWMS/\naY5DKCdeuzs2JIYfaBMh+0JdiNFRywXctIgTUpc/cnWrTJ4/eENSrhDFxGaFRf9f\nCpRs1ySB2pRLzvcOO62OZKb6PB01O4GQKwf4GpOKfRpbC/aIDeB6rmUneXYrFjhp\nJakMKr8M3CE12EB6fwawLQTu1CCYOE0bdhBbOLqQlwKBgQDIrO4WYhPSuREGdssu\nZW1Hgac8WxO0vI0epVl8inKangYrPubPrVYg9SG8e58ZpdA1grRBda9p8eby7KI8\nGqeTi2QnlEIKJsND/dH6VZ9qWy/4rbOUDszk2WBg9YL4IADuniOgUBUMkqAXaGwT\n2OrTJGHFU1g+LvUgn0d2TMuSRwKBgQC3nZKtlGNDhCRsVG/NqmHXtU8M8Hu+/5No\nB/Ba5I0nfr0UNN/yQrfq49Ln906pryUGSD/TA8OMmOmPcGFpCygdj+j3p7NH54XZ\nQSjZVhFso+ATnlc51lJ//82O4V8CCSuAEFT713ZAuFNy9pAbRzDefCcsplekObqw\nH3qQ9JRHVwKBgH/PA+RlmtJ+5AUF6+ok1zDPtr+OEkLuQ8Lc9N2JH+yx8KPicAad\nE1nyRgZRhcdEABPUpxF57rq/QqQ9aiZ1o30pLiS3HEhy37KSGgYiOmH2qdrsZo9J\nzd2DRQr70upNF8riFTapSn6zdBr0esE5SnYnmc2fg3g3WA/q4gzKZG1JAoGBALJ3\nSoDCULTn9EsCyuSYrZ7u0BXgjDZ5zPl5demyaWww6HCCcATVSlPY+j6ShnexD4iK\notZjuyal3aWYcmWZ/XS2Upab/kpuQw+GIMEVwbvZkEshROCnauqUZGRys1iUNx6z\nQRbDNmHzhtCfzDNnP52QCLeCOn8ZyVW0UvofbxvjAoGATvadiZXsIQugAdsEcICE\nOAiIo89i+xlE3HOPEbzTgaLXKgPLBUBuduBQXh47Zva4gW3vyyUGKSv3Rgyr7zkk\nkj1/FO4AUsJpuIVwkGcm63HNtZQAuvgADVdEqK9059QUVvIfg1JNyei+WQaa+PLU\nJpa5PCbwkCZAw5GJwYE4x7U=\n-----END PRIVATE KEY-----\n",
-        "client_email": "kinetex@macro-crane-449312-v5.iam.gserviceaccount.com",
-        "client_id": "105769502274508372970",
-        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-        "token_uri": "https://oauth2.googleapis.com/token",
-        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kinetex%40macro-crane-449312-v5.iam.gserviceaccount.com",
-        "universe_domain": "googleapis.com"
-    }
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
     client = gspread.authorize(creds)
     # Получаем текущую дату в формате "YYYY-MM-DD"
     current_date = datetime.now().strftime("%Y-%m-%d")
