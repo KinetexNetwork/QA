@@ -14,7 +14,7 @@ import os
 environment = "prod"  # staging/prod/dev
 last_amount = 100  # Сумма обмена в USD
 enable_exceptions = False  # Включить/выключить исключения
-enable_filters = True  # Включить/выключить фильтры
+enable_filters = False  # Включить/выключить фильтры
 enable_exceptions1 = True  # сверяем с дополнительной апишкой
 
 stop_threads = False
