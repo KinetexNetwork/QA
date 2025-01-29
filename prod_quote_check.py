@@ -563,7 +563,8 @@ def save_to_google_sheets(report_data):
         "https://www.googleapis.com/auth/drive",
     ]
     
-    creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
+    credentials_json = os.getenv('GOOGLE_SHEETS_CREDENTIALS')
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(credentials_json), scope)
     client = gspread.authorize(creds)
     # Получаем текущую дату в формате "YYYY-MM-DD"
     current_date = datetime.now().strftime("%Y-%m-%d")
