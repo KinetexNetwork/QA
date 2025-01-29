@@ -20,9 +20,6 @@ jobs:
 
     - name: Install requests
       run: |
-        pip install requests
-        pip install pandas
-        pip install datetime
         pip install json
         pip install random
         pip install signal
