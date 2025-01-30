@@ -573,8 +573,6 @@ def save_to_google_sheets(report_data):
 
     # Создаем новую таблицу или открываем существующую
     spreadsheet = client.open("kinetex quote-check")  # Создает новую таблицу
-    # spreadsheet = client.open("Название вашей таблицы")  # Открывает существующую таблицу
-     # Проверяем, существует ли лист с заданным именем
 
     # Проверяем, существует ли лист с заданным именем
     sheet_name = sheet_base_name
@@ -587,7 +585,7 @@ def save_to_google_sheets(report_data):
         counter += 1
 
     # Создаем новый лист с уникальным именем
-    sheet = spreadsheet.add_worksheet(title=sheet_name, rows="1000", cols="20")
+    sheet = spreadsheet.add_worksheet(title=sheet_name, rows="10000", cols="20")
 
     # Записываем заголовки
     headers = [
@@ -614,6 +612,7 @@ def save_to_google_sheets(report_data):
     sheet.append_row(headers)
 
     # Записываем данные
+    rows_to_insert = []
     for report in report_data:
         # Преобразуем списки в строки
         row = [
@@ -637,14 +636,14 @@ def save_to_google_sheets(report_data):
             ', '.join(report["dst_router"]) if isinstance(report["dst_router"], list) else report["dst_router"] or "",
             ', '.join(report["Status"]) if isinstance(report["Status"], list) else report["Status"] or ""
         ]
+        rows_to_insert.append(row)
         
         try:
-            sheet.append_row(row)
+            if rows_to_insert:
+                sheet.append_rows(rows_to_insert)
+            print("Отчет успешно сохранен в Google Таблицу.")
         except gspread.exceptions.APIError as e:
-            print(f"Ошибка при добавлении строки: {e}")
-
-    print("Отчет успешно сохранен в Google Таблицу.")
-
+            print(f"Ошибка при добавлении строк: {e}")
 
 # Сохранение отчета в Google Sheets
 save_to_google_sheets(report_data)
