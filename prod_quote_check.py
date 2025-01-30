@@ -638,12 +638,12 @@ def save_to_google_sheets(report_data):
         ]
         rows_to_insert.append(row)
         
-        try:
-            if rows_to_insert:
-                sheet.append_rows(rows_to_insert)
-            print("Отчет успешно сохранен в Google Таблицу.")
-        except gspread.exceptions.APIError as e:
-            print(f"Ошибка при добавлении строк: {e}")
+    try:
+        if rows_to_insert:
+            sheet.append_rows(rows_to_insert)
+        print("Отчет успешно сохранен в Google Таблицу.")
+    except gspread.exceptions.APIError as e:
+        print(f"Ошибка при добавлении строк: {e}")
 
 # Сохранение отчета в Google Sheets
 save_to_google_sheets(report_data)
