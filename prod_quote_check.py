@@ -12,7 +12,7 @@ import os
 
 # Настройки
 environment = "prod"  # staging/prod/dev
-last_amount = 100  # Сумма обмена в USD
+last_amount = 1000  # Сумма обмена в USD
 enable_exceptions = False  # Включить/выключить исключения
 enable_filters = False  # Включить/выключить фильтры
 enable_exceptions1 = True  # сверяем с дополнительной апишкой
@@ -315,6 +315,20 @@ if response_cryptos.status_code == 200:
                                                     if candidates_ordered
                                                     else None
                                                 )
+                                                swap_type = None
+                                                from_liq_token = None
+                                                to_liq_token = None
+
+                                                # Извлечение fromCT и toCT из onchainSwapDetails
+                                                onchain_swap_details = debug_info.get("onchainSwapDetails", {})
+                                                from_ct = onchain_swap_details.get("fromCT", None)
+                                                to_ct = onchain_swap_details.get("toCT", None)
+
+                                                if first_candidate:
+                                                    # Извлекаем значения из first_candidate
+                                                    swap_type = first_candidate[0]  # 5_onchainswap_to_onchainswap
+                                                    from_liq_token = first_candidate[1] if first_candidate[1] else from_ct
+                                                    to_liq_token = first_candidate[2] if first_candidate[2] else to_ct 
 
                                                 report_data.append(
                                                     {
@@ -333,7 +347,9 @@ if response_cryptos.status_code == 200:
                                                         "trading_fee_percentage": trading_fee_percentage,
                                                         "from_gas_fee": from_gas_fee,
                                                         "to_gas_fee": to_gas_fee,
-                                                        "first_candidate": first_candidate,
+                                                        "swap_type": swap_type,
+                                                        "from_liq_token": from_liq_token,
+                                                        "to_liq_token": to_liq_token,
                                                         "src_router": src_router,
                                                         "dst_router": dst_router,
                                                         "Status": "Success",
@@ -358,7 +374,9 @@ if response_cryptos.status_code == 200:
                                                         "trading_fee_percentage": None,
                                                         "from_gas_fee": None,
                                                         "to_gas_fee": None,
-                                                        "first_candidate": None,
+                                                        "swap_type": None,
+                                                        "from_liq_token": None,
+                                                        "to_liq_token": None,
                                                         "src_router": None,
                                                         "dst_router": None,
                                                         "Status": "to_amount is None",
@@ -382,7 +400,9 @@ if response_cryptos.status_code == 200:
                                                     "trading_fee_percentage": trading_fee_percentage,
                                                     "from_gas_fee": from_gas_fee,
                                                     "to_gas_fee": to_gas_fee,
-                                                    "first_candidate": first_candidate,
+                                                    "swap_type": swap_type,
+                                                    "from_liq_token": from_liq_token,
+                                                    "to_liq_token": to_liq_token,
                                                     "src_router": src_router,
                                                     "dst_router": dst_router,
                                                     "Status": "Success",
@@ -406,7 +426,9 @@ if response_cryptos.status_code == 200:
                                                 "trading_fee_percentage": trading_fee_percentage,
                                                 "from_gas_fee": from_gas_fee,
                                                 "to_gas_fee": to_gas_fee,
-                                                "first_candidate": first_candidate,
+                                                "swap_type": swap_type,
+                                                "from_liq_token": from_liq_token,
+                                                "to_liq_token": to_liq_token,
                                                 "src_router": src_router,
                                                 "dst_router": dst_router,
                                                 "Status": "_debug is None",
@@ -446,7 +468,9 @@ if response_cryptos.status_code == 200:
                                                 "trading_fee_percentage": None,
                                                 "from_gas_fee": None,
                                                 "to_gas_fee": None,
-                                                "first_candidate": None,
+                                                "swap_type": None,
+                                                "from_liq_token": None,
+                                                "to_liq_token": None,
                                                 "src_router": None,
                                                 "dst_router": None,
                                                 "Status": f"attempts: {response_quote.status_code} - {response_quote.text}",
@@ -470,7 +494,9 @@ if response_cryptos.status_code == 200:
                                     "trading_fee_percentage": None,
                                     "from_gas_fee": None,
                                     "to_gas_fee": None,
-                                    "first_candidate": None,
+                                    "swap_type": None,
+                                    "from_liq_token": None,
+                                    "to_liq_token": None,
                                     "src_router": None,
                                     "dst_router": None,
                                     "Status": "Value is None (/api/price/map)",
@@ -495,7 +521,9 @@ if response_cryptos.status_code == 200:
                                 "trading_fee_percentage": None,
                                 "from_gas_fee": None,
                                 "to_gas_fee": None,
-                                "first_candidate": None,
+                                "swap_type": None,
+                                "from_liq_token": None,
+                                "to_liq_token": None,
                                 "src_router": None,
                                 "dst_router": None,
                                 "Status": "Price not found",
@@ -519,7 +547,9 @@ if response_cryptos.status_code == 200:
                         "trading_fee_percentage": None,
                         "from_gas_fee": None,
                         "to_gas_fee": None,
-                        "first_candidate": None,
+                        "swap_type": None,
+                        "from_liq_token": None,
+                        "to_liq_token": None,
                         "src_router": None,
                         "dst_router": None,
                         "Status": "Invalid addresses or chain IDs",
@@ -604,7 +634,9 @@ def save_to_google_sheets(report_data):
         "trading_fee_percentage",
         "from_gas_fee",
         "to_gas_fee",
-        "first_candidate",
+        "swap_type",
+        "from_liq_token",
+        "to_liq_token",
         "src_router",
         "dst_router",
         "Status",
@@ -631,7 +663,9 @@ def save_to_google_sheets(report_data):
             ', '.join(report["trading_fee_percentage"]) if isinstance(report["trading_fee_percentage"], list) else report["trading_fee_percentage"] or "",
             ', '.join(report["from_gas_fee"]) if isinstance(report["from_gas_fee"], list) else report["from_gas_fee"] or "",
             ', '.join(report["to_gas_fee"]) if isinstance(report["to_gas_fee"], list) else report["to_gas_fee"] or "",
-            ', '.join(report["first_candidate"]) if isinstance(report["first_candidate"], list) else report["first_candidate"] or "",
+            ', '.join(report["swap_type"]) if isinstance(report["swap_type"], list) else report["swap_type"] or "",
+            ', '.join(report["from_liq_token"]) if isinstance(report["from_liq_token"], list) else report["from_liq_token"] or "",
+            ', '.join(report["to_liq_token"]) if isinstance(report["to_liq_token"], list) else report["to_liq_token"] or "",
             ', '.join(report["src_router"]) if isinstance(report["src_router"], list) else report["src_router"] or "",
             ', '.join(report["dst_router"]) if isinstance(report["dst_router"], list) else report["dst_router"] or "",
             ', '.join(report["Status"]) if isinstance(report["Status"], list) else report["Status"] or ""
