@@ -329,6 +329,9 @@ if response_cryptos.status_code == 200:
                                                     swap_type = first_candidate[0]  # 5_onchainswap_to_onchainswap
                                                     from_liq_token = first_candidate[1] if first_candidate[1] else from_ct
                                                     to_liq_token = first_candidate[2] if first_candidate[2] else to_ct 
+                                                    
+                                                # Извлечение totalGasFeeUsd из feeDetails
+                                                total_gas_fee_usd = debug_info.get("feeDetails", {}).get("totalGasFeeUsd", None)
 
                                                 report_data.append(
                                                     {
@@ -347,6 +350,7 @@ if response_cryptos.status_code == 200:
                                                         "trading_fee_percentage": trading_fee_percentage,
                                                         "from_gas_fee": from_gas_fee,
                                                         "to_gas_fee": to_gas_fee,
+                                                        "total_gas_fee_usd": total_gas_fee_usd,
                                                         "swap_type": swap_type,
                                                         "from_liq_token": from_liq_token,
                                                         "to_liq_token": to_liq_token,
@@ -374,6 +378,7 @@ if response_cryptos.status_code == 200:
                                                         "trading_fee_percentage": None,
                                                         "from_gas_fee": None,
                                                         "to_gas_fee": None,
+                                                        "total_gas_fee_usd": None,
                                                         "swap_type": None,
                                                         "from_liq_token": None,
                                                         "to_liq_token": None,
@@ -400,6 +405,7 @@ if response_cryptos.status_code == 200:
                                                     "trading_fee_percentage": trading_fee_percentage,
                                                     "from_gas_fee": from_gas_fee,
                                                     "to_gas_fee": to_gas_fee,
+                                                    "total_gas_fee_usd": total_gas_fee_usd,
                                                     "swap_type": swap_type,
                                                     "from_liq_token": from_liq_token,
                                                     "to_liq_token": to_liq_token,
@@ -426,6 +432,7 @@ if response_cryptos.status_code == 200:
                                                 "trading_fee_percentage": trading_fee_percentage,
                                                 "from_gas_fee": from_gas_fee,
                                                 "to_gas_fee": to_gas_fee,
+                                                "total_gas_fee_usd": total_gas_fee_usd,
                                                 "swap_type": swap_type,
                                                 "from_liq_token": from_liq_token,
                                                 "to_liq_token": to_liq_token,
@@ -468,6 +475,7 @@ if response_cryptos.status_code == 200:
                                                 "trading_fee_percentage": None,
                                                 "from_gas_fee": None,
                                                 "to_gas_fee": None,
+                                                "total_gas_fee_usd": None,
                                                 "swap_type": None,
                                                 "from_liq_token": None,
                                                 "to_liq_token": None,
@@ -494,6 +502,7 @@ if response_cryptos.status_code == 200:
                                     "trading_fee_percentage": None,
                                     "from_gas_fee": None,
                                     "to_gas_fee": None,
+                                    "total_gas_fee_usd": None,
                                     "swap_type": None,
                                     "from_liq_token": None,
                                     "to_liq_token": None,
@@ -521,6 +530,7 @@ if response_cryptos.status_code == 200:
                                 "trading_fee_percentage": None,
                                 "from_gas_fee": None,
                                 "to_gas_fee": None,
+                                "total_gas_fee_usd": None,
                                 "swap_type": None,
                                 "from_liq_token": None,
                                 "to_liq_token": None,
@@ -547,6 +557,7 @@ if response_cryptos.status_code == 200:
                         "trading_fee_percentage": None,
                         "from_gas_fee": None,
                         "to_gas_fee": None,
+                        "total_gas_fee_usd": None,
                         "swap_type": None,
                         "from_liq_token": None,
                         "to_liq_token": None,
@@ -634,6 +645,7 @@ def save_to_google_sheets(report_data):
         "trading_fee_percentage",
         "from_gas_fee",
         "to_gas_fee",
+        "total_gas_fee_usd",
         "swap_type",
         "from_liq_token",
         "to_liq_token",
@@ -663,6 +675,7 @@ def save_to_google_sheets(report_data):
             ', '.join(report["trading_fee_percentage"]) if isinstance(report["trading_fee_percentage"], list) else report["trading_fee_percentage"] or "",
             ', '.join(report["from_gas_fee"]) if isinstance(report["from_gas_fee"], list) else report["from_gas_fee"] or "",
             ', '.join(report["to_gas_fee"]) if isinstance(report["to_gas_fee"], list) else report["to_gas_fee"] or "",
+            ', '.join(report["total_gas_fee_usd"]) if isinstance(report["total_gas_fee_usd"], list) else report["total_gas_fee_usd"] or "",
             ', '.join(report["swap_type"]) if isinstance(report["swap_type"], list) else report["swap_type"] or "",
             ', '.join(report["from_liq_token"]) if isinstance(report["from_liq_token"], list) else report["from_liq_token"] or "",
             ', '.join(report["to_liq_token"]) if isinstance(report["to_liq_token"], list) else report["to_liq_token"] or "",
