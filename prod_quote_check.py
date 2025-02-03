@@ -333,6 +333,14 @@ if response_cryptos.status_code == 200:
                                                 # Извлечение totalGasFeeUsd из feeDetails
                                                 total_gas_fee_usd = debug_info.get("feeDetails", {}).get("totalGasFeeUsd", None)
 
+                                                fromAmountDecimal = debug_info.get(
+                                                    "fromAmountDecimal", None,
+                                                )
+                                                
+                                                toAmountDecimal = debug_info.get(
+                                                    "toAmountDecimal", None,
+                                                )
+
                                                 report_data.append(
                                                     {
                                                         "Trace ID": trace_id,
@@ -341,6 +349,8 @@ if response_cryptos.status_code == 200:
                                                         "To Symbol": to_symbol,
                                                         "From Amount (USD)": last_amount,
                                                         "To Amount (USD)": to_last_amount,
+                                                        "fromAmountDecimal": fromAmountDecimal,
+                                                        "toAmountDecimal": toAmountDecimal,
                                                         "drawdown (%)": drawdown,
                                                         "SWAPS - Total Loss (USD)": total_loss_usd_SWAPS,
                                                         "From Chain ID": from_chain_id,
@@ -369,6 +379,8 @@ if response_cryptos.status_code == 200:
                                                         "To Symbol": to_symbol,
                                                         "From Amount (USD)": last_amount,
                                                         "To Amount (USD)": None,
+                                                        "fromAmountDecimal": None,
+                                                        "toAmountDecimal": None,
                                                         "drawdown (%)": None,
                                                         "SWAPS - Total Loss (USD)": None,
                                                         "From Chain ID": from_chain_id,
@@ -396,6 +408,8 @@ if response_cryptos.status_code == 200:
                                                     "To Symbol": to_symbol,
                                                     "From Amount (USD)": last_amount,
                                                     "To Amount (USD)": to_last_amount,
+                                                    "fromAmountDecimal": fromAmountDecimal,
+                                                    "toAmountDecimal": toAmountDecimal,
                                                     "drawdown (%)": drawdown,
                                                     "SWAPS - Total Loss (USD)": total_loss_usd_SWAPS,
                                                     "From Chain ID": from_chain_id,
@@ -423,6 +437,8 @@ if response_cryptos.status_code == 200:
                                                 "To Symbol": to_symbol,
                                                 "From Amount (USD)": last_amount,
                                                 "To Amount (USD)": to_last_amount,
+                                                "fromAmountDecimal": fromAmountDecimal,
+                                                "toAmountDecimal": toAmountDecimal,
                                                 "drawdown (%)": drawdown,
                                                 "SWAPS - Total Loss (USD)": total_loss_usd_SWAPS,
                                                 "From Chain ID": from_chain_id,
@@ -466,6 +482,8 @@ if response_cryptos.status_code == 200:
                                                 "To Symbol": to_symbol,
                                                 "From Amount (USD)": last_amount,
                                                 "To Amount (USD)": None,
+                                                "fromAmountDecimal": None,
+                                                "toAmountDecimal": None,
                                                 "drawdown (%)": None,
                                                 "SWAPS - Total Loss (USD)": None,
                                                 "From Chain ID": from_chain_id,
@@ -493,6 +511,8 @@ if response_cryptos.status_code == 200:
                                     "To Symbol": to_symbol,
                                     "From Amount (USD)": None,
                                     "To Amount (USD)": None,
+                                    "fromAmountDecimal": None,
+                                    "toAmountDecimal": None,
                                     "drawdown (%)": None,
                                     "SWAPS - Total Loss (USD)": None,
                                     "From Chain ID": from_chain_id,
@@ -521,6 +541,8 @@ if response_cryptos.status_code == 200:
                                 "To Symbol": to_symbol,
                                 "From Amount (USD)": last_amount,
                                 "To Amount (USD)": None,
+                                "fromAmountDecimal": None,
+                                "toAmountDecimal": None,
                                 "drawdown (%)": None,
                                 "SWAPS - Total Loss (USD)": None,
                                 "From Chain ID": from_chain_id,
@@ -548,6 +570,8 @@ if response_cryptos.status_code == 200:
                         "To Symbol": to_symbol,
                         "From Amount (USD)": None,
                         "To Amount (USD)": None,
+                        "fromAmountDecimal": None,
+                        "toAmountDecimal": None,
                         "drawdown (%)": None,
                         "SWAPS - Total Loss (USD)": None,
                         "From Chain ID": from_chain_id,
@@ -636,6 +660,8 @@ def save_to_google_sheets(report_data):
         "To Symbol",
         "From Amount (USD)",
         "To Amount (USD)",
+        "fromAmountDecimal",
+        "toAmountDecimal",
         "drawdown (%)",
         "SWAPS - Total Loss (USD)",
         "From Chain ID",
@@ -666,6 +692,8 @@ def save_to_google_sheets(report_data):
             ', '.join(report["To Symbol"]) if isinstance(report["To Symbol"], list) else report["To Symbol"] or "",
             ', '.join(report["From Amount (USD)"]) if isinstance(report["From Amount (USD)"], list) else report["From Amount (USD)"] or "",
             ', '.join(report["To Amount (USD)"]) if isinstance(report["To Amount (USD)"], list) else report["To Amount (USD)"] or "",
+            ', '.join(report["fromAmountDecimal"]) if isinstance(report["fromAmountDecimal"], list) else report["fromAmountDecimal"] or "",
+            ', '.join(report["toAmountDecimal"]) if isinstance(report["toAmountDecimal"], list) else report["toAmountDecimal"] or "",
             ', '.join(report["drawdown (%)"]) if isinstance(report["drawdown (%)"], list) else report["drawdown (%)"] or "",
             ', '.join(report["SWAPS - Total Loss (USD)"]) if isinstance(report["SWAPS - Total Loss (USD)"], list) else report["SWAPS - Total Loss (USD)"] or "",
             ', '.join(report["From Chain ID"]) if isinstance(report["From Chain ID"], list) else report["From Chain ID"] or "",
